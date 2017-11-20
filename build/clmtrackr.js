@@ -4530,7 +4530,7 @@ if(!raf || !caf) {
   };
 }
 
-var index = function(fn) {
+var raf_1 = function(fn) {
   // Wrap in a new function to prevent
   // `cancel` potentially being assigned
   // to the native rAF function
@@ -4539,13 +4539,16 @@ var index = function(fn) {
 var cancel = function() {
   caf.apply(root, arguments);
 };
-var polyfill = function() {
-  root.requestAnimationFrame = raf;
-  root.cancelAnimationFrame = caf;
+var polyfill = function(object) {
+  if (!object) {
+    object = root;
+  }
+  object.requestAnimationFrame = raf;
+  object.cancelAnimationFrame = caf;
 };
 
-index.cancel = cancel;
-index.polyfill = polyfill;
+raf_1.cancel = cancel;
+raf_1.polyfill = polyfill;
 
 var promise = createCommonjsModule(function (module) {
 (function (root) {
@@ -14309,7 +14312,7 @@ var version = "1.1.2";
 var DEFAULT_MODEL = model_pca_20_svm;
 
 // polyfills
-index.polyfill();
+raf_1.polyfill();
 if (!window.Promise) window.Promise = promise;
 
 var clm = {
